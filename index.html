@@ -207,6 +207,7 @@
   <a class="brand" href="#top"><img src="assets/logo.png" alt=""/><span>ALL<span class="x">X</span>AI</span><span class="by">by AllIntoAI</span></a>
   <div class="links">
     <a href="#platform">Platform</a>
+    <a href="#valued">Who we value</a>
     <a href="#features">Features</a>
     <a href="#how">How It Works</a>
     <a href="#usecases">Use Cases</a>
@@ -295,6 +296,18 @@
   });
 })();
 </script>
+
+<!-- WHO WE VALUE -->
+<section class="blk" id="valued"><div class="wrap">
+  <div class="head"><span class="eyebrow">Who we value</span><h2>Who ALL×AI is built for, in order</h2><p>Tap any group to see what they get from ALL×AI.</p></div>
+  <div class="ly-panel" id="lyp-1">
+    <div class="ly-split">
+      <div class="ly-seg" id="ly-segs"></div>
+      <div class="ly-box ly-detail" id="ly-d1" aria-live="polite"></div>
+    </div>
+  </div>
+
+</div></section>
 
 <!-- PLATFORM + X LAYER -->
 <section class="blk plat" id="platform"><div class="wrap">
@@ -441,6 +454,36 @@
     [k, h, p, st, a].forEach(function(x){ d.appendChild(x); });
   });
 
+  /* client segments */
+  var SEGS = [
+    ["Enterprises", false, "Organisations running AI across several teams and departments at once.", "Model picks per department and one view of what runs where."],
+    ["Businesses", false, "Companies putting AI into daily work, from leads to support to operations.", "The best model for each problem, within budget."],
+    ["Product owners", false, "The people deciding what AI should do inside a product, and what it should not.", "Clear trade-offs between cost, accuracy and scale."],
+    ["Developers", false, "Builders connecting models, pipelines and tools into working systems.", "Model combinations and the workflow to route them through."],
+    ["Agents", true, "AI agents doing defined tasks inside a workflow, with a person accountable for them.", "A defined job, the right model, and a human owner."],
+    ["Analysts", false, "People turning data and model output into decisions the business can act on.", "Estimates of savings, return and time to work from."],
+    ["Experts", false, "Domain specialists who review the answers and keep the quality high.", "A place in the loop where their review counts."]
+  ];
+  var sbox = $("ly-segs"), sbtn = [];
+  SEGS.forEach(function(g, i){
+    var b = document.createElement("button"); b.type = "button"; b.className = "ly-item";
+    var r = document.createElement("span"); r.className = "ly-rk"; r.textContent = String(i + 1);
+    var n = document.createElement("b"); n.textContent = g[0];
+    var t = document.createElement("span"); t.className = "ly-tag" + (g[1] ? " ai" : ""); t.textContent = g[1] ? "AI" : "People";
+    t.style.marginLeft = "auto";
+    b.appendChild(r); b.appendChild(n); b.appendChild(t);
+    sbox.appendChild(b); sbtn.push(b);
+  });
+  pickable(sbox, sbtn, function(i){
+    var g = SEGS[i], d = $("ly-d1");
+    d.innerHTML = "";
+    var k = document.createElement("div"); k.className = "k"; k.textContent = "Priority " + (i + 1) + " of 7" + (g[1] ? " · AI" : " · People");
+    var h = document.createElement("h3"); h.textContent = g[0];
+    var p = document.createElement("p"); p.textContent = g[2];
+    var gets = document.createElement("p"); gets.className = "gets"; gets.textContent = "Gets from ALL×AI: " + g[3];
+    var a = document.createElement("a"); a.href = "https://allxaiapp.com/valued.html"; a.textContent = "Open the interactive network →";
+    [k, h, p, gets, a].forEach(function(x){ d.appendChild(x); });
+  });
 })();
 </script>
 

@@ -608,6 +608,12 @@
 </div></footer>
 
 <script>
+// Links like allintoai.ai/#demo: the page grows while it builds (logo, x layer), so scroll again once it has settled.
+window.addEventListener('load', function(){
+  if (!location.hash) return;
+  var el = document.getElementById(location.hash.slice(1)); if (!el) return;
+  setTimeout(function(){ el.scrollIntoView(); }, 120);
+});
 (function(){ var f=document.querySelector('.demo-iframe[data-src]'); if(!f) return;
   function go(){ f.src=f.getAttribute('data-src'); f.removeAttribute('data-src'); }
   if(!('IntersectionObserver' in window)) return go();

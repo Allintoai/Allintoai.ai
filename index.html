@@ -649,7 +649,7 @@
   </div>
   <div class="foot-bar">
     <span>&copy; 2026 All Into AI. All rights reserved.</span>
-    <span class="foot-legal"><a href="https://company.allintoai.ai" target="_blank" rel="noopener">Terms</a><a href="https://company.allintoai.ai" target="_blank" rel="noopener">Privacy</a><a href="https://company.allintoai.ai" target="_blank" rel="noopener">Cookies</a></span>
+    <span class="foot-legal"><a href="https://allxaiapp.com/terms.html">Terms</a><a href="https://allxaiapp.com/privacy.html">Privacy</a><a href="https://allxaiapp.com/refunds.html">Refunds</a><a href="https://allxaiapp.com/cookies.html">Cookies</a></span>
   </div>
 </div></footer>
 
@@ -711,5 +711,42 @@ function sendContact(e){
     });
   },{threshold:0.12, rootMargin:'0px 0px -8% 0px'});
   els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+<!-- AIXPLORERS POPUP -->
+<style>
+  .axp{position:fixed;right:20px;bottom:20px;z-index:60;width:min(340px,calc(100vw - 32px));background:var(--panel2);border:1px solid rgba(34,201,224,.35);border-radius:16px;padding:18px 18px 16px;box-shadow:0 18px 50px rgba(0,0,0,.55);color:var(--ink);transform:translateY(24px);opacity:0;pointer-events:none;transition:transform .35s ease,opacity .35s ease}
+  .axp.show{transform:none;opacity:1;pointer-events:auto}
+  .axp .k{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--cyan);font-weight:800}
+  .axp h3{margin:6px 0 6px;font-size:18px;line-height:1.3}
+  .axp p{margin:0 0 14px;color:var(--muted);font-size:13.5px;line-height:1.55}
+  .axp .row2{display:flex;gap:10px;align-items:center}
+  .axp .go{display:inline-block;background:var(--cyan);color:#041018;font-weight:800;font-size:13.5px;padding:10px 14px;border-radius:10px;text-decoration:none}
+  .axp .later{background:none;border:0;color:var(--muted);font-size:13px;cursor:pointer;padding:8px}
+  .axp .x{position:absolute;top:8px;right:10px;background:none;border:0;color:var(--muted);font-size:20px;line-height:1;cursor:pointer;padding:4px}
+  @media (max-width:560px){.axp{left:16px;right:16px;bottom:16px;width:auto}}
+  @media (prefers-reduced-motion:reduce){.axp{transition:none}}
+</style>
+<div class="axp" id="axp" role="dialog" aria-labelledby="axp-t" aria-hidden="true">
+  <button type="button" class="x" id="axp-x" aria-label="Close">&times;</button>
+  <div class="k">AIxplorers community</div>
+  <h3 id="axp-t">Tried ALL×AI? Tell us what you think</h3>
+  <p>Leave a review, suggest what we should add next, or read what other AIxplorers picked and why.</p>
+  <div class="row2"><a class="go" href="https://allxaiapp.com/community.html#form">Share a review or idea</a><button type="button" class="later" id="axp-later">Maybe later</button></div>
+</div>
+<script>
+(function(){
+  var box=document.getElementById('axp'), KEY='ax_axp_closed', shown=false;
+  function closed(){ try{ return localStorage.getItem(KEY)==='1'; }catch(e){ return false; } }
+  if(closed()) return;
+  function show(){ if(shown) return; shown=true; box.classList.add('show'); box.setAttribute('aria-hidden','false'); window.removeEventListener('scroll',onScroll); }
+  function hide(){ box.classList.remove('show'); box.setAttribute('aria-hidden','true'); try{ localStorage.setItem(KEY,'1'); }catch(e){} }
+  function onScroll(){ var y=window.scrollY||document.documentElement.scrollTop||document.body.scrollTop||0, H=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)-window.innerHeight; if(H>0&&y/H>0.35) show(); }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  setTimeout(show,8000);
+  document.getElementById('axp-x').addEventListener('click',hide);
+  document.getElementById('axp-later').addEventListener('click',hide);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&shown) hide(); });
 })();
 </script>

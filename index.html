@@ -615,22 +615,6 @@
   </div>
 </div></section>
 
-<!-- LIVE DEMO -->
-<section class="blk demo-sec" id="demo"><div class="wrap">
-  <div class="head"><span class="eyebrow">Live demo</span><h2>See ALL×AI triage leads in real time</h2></div>
-  <div class="demo-panel">
-    <div class="demo-head">
-      <div><div class="demo-title">AI Understands Your Inputs</div><div class="demo-sub">ALL×AI live demo, lead triage running in real time</div></div>
-      <span class="live"><i></i> Live</span>
-    </div>
-    <div class="demo-frame">
-      <div class="demo-bar"><em></em><em></em><em></em><span class="demo-url">www.allintoai.ai</span></div>
-      <iframe class="demo-iframe" data-src="app.html?view=dashboard" title="ALLXAI live dashboard preview" loading="lazy" scrolling="no" tabindex="-1"></iframe>
-    </div>
-  </div>
-
-</div></section>
-
 <!-- FOOTER -->
 <footer><div class="wrap">
   <div class="foot-grid">
@@ -652,7 +636,7 @@
       <a href="https://allxaiapp.com/">Try ModRecx free</a><a href="https://allxaiapp.com/login.html">Log in</a><a href="https://allxaiapp.com/plans.html">Plans &amp; pricing</a><a href="https://allxaiapp.com/community.html">AIxplorers</a>
     </div>
     <div class="foot-col"><h4><a href="x-layer.html" style="display:inline;margin:0">ALL×AI</a></h4>
-      <a href="x-layer.html">&times; layer</a><a href="#valued">Who we value</a><a href="#usecases">Use cases</a><a href="https://allxaiapp.com/app.html?go=triage">Workflows</a><a href="#demo">Live demo</a>
+      <a href="x-layer.html">&times; layer</a><a href="#valued">Who we value</a><a href="#usecases">Use cases</a><a href="https://allxaiapp.com/app.html?go=triage">Workflows</a>
     </div>
     <div class="foot-col"><h4><a href="https://company.allintoai.ai/" target="_blank" rel="noopener" style="display:inline;margin:0">AllIntoAI</a></h4>
       <a href="https://company.allintoai.ai/" target="_blank" rel="noopener">About us</a><a href="https://company.allintoai.ai/" target="_blank" rel="noopener">Contact</a><a href="https://company.allintoai.ai/" target="_blank" rel="noopener">Company site</a>
@@ -665,16 +649,12 @@
 </div></footer>
 
 <script>
-// Links like allintoai.ai/#demo: the page grows while it builds (logo, x layer), so scroll again once it has settled.
+// In-page navigation: the page grows while it builds (logo, x layer), so scroll again once it has settled.
 window.addEventListener('load', function(){
   if (!location.hash) return;
   var el = document.getElementById(location.hash.slice(1)); if (!el) return;
   setTimeout(function(){ el.scrollIntoView(); }, 120);
 });
-(function(){ var f=document.querySelector('.demo-iframe[data-src]'); if(!f) return;
-  function go(){ f.src=f.getAttribute('data-src'); f.removeAttribute('data-src'); }
-  if(!('IntersectionObserver' in window)) return go();
-  var io=new IntersectionObserver(function(es){ if(es[0].isIntersecting){ io.disconnect(); go(); } },{rootMargin:'300px'}); io.observe(f); })();
 function sendContact(e){
   e.preventDefault();
   var form=document.getElementById('cform');

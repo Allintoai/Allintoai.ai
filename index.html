@@ -206,7 +206,8 @@
   section[id]{scroll-margin-top:72px}
   .demo-sec .demo-panel{max-width:820px;margin:0 auto}
 .ax-products{display:flex;flex-direction:column;gap:10px;text-align:center;max-width:680px;margin:28px auto;padding:22px;border:1px solid var(--line);border-radius:18px}.ax-products strong{font-size:clamp(17px,3vw,24px)}.ax-products>span{border-top:1px solid var(--line);padding-top:12px;color:#4fc4f5}.ax-products small{color:var(--muted);font-size:12px}.indian-models ul{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.indian-models li{display:block!important;padding:0!important;min-width:0}.indian-models li a{display:flex;align-items:center;flex-direction:column;gap:8px;padding:18px;color:inherit;text-decoration:none}.indian-logo{display:flex;align-items:center;justify-content:center;height:42px;width:160px;max-width:100%;background:#102230;border-radius:9px;padding:5px}.indian-logo svg,.indian-logo img{width:100%;height:100%;object-fit:contain}.indian-models b{font-size:15px}.indian-models small,.indian-note{font-size:12px;line-height:1.6;color:var(--muted)}@media(max-width:480px){.indian-models ul{grid-template-columns:1fr}.ax-products{padding:16px}}
-.indian-logo-light{background:#fff}.mods.indian-models .indian-note{font-size:12px;line-height:1.6;margin-top:12px}</style>
+.indian-logo-light{background:#fff}.mods.indian-models .indian-note{font-size:12px;line-height:1.6;margin-top:12px}.home-conversation{max-width:760px;margin:0 auto 18px;text-align:left;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.home-assistant-label{font-size:11px;color:var(--cyan);font-weight:700;letter-spacing:.6px}.home-conversation #home-guidance{font-size:14px;line-height:1.7;color:var(--muted);margin:8px 0 0;max-width:none}.askbox{padding:18px 20px}.askbox textarea{padding-right:52px;min-height:100px}.askbox .askgo{top:20px;right:18px;transform:none;width:44px;height:44px}.home-prompt-ad{display:flex;align-items:center;gap:12px;border-top:1px solid var(--line);padding-top:14px;margin-top:16px;text-align:left}.home-ad-badge{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--cyan);flex:0 0 82px}.home-prompt-ad b{display:block;color:var(--ink);font-size:12px}.home-prompt-ad small{display:block;color:var(--muted);font-size:11px;line-height:1.5;margin-top:3px}.home-ad-preview{font-size:10px;border:1px solid var(--line);border-radius:20px;padding:4px 8px;color:var(--muted);margin-left:auto}.ask-h{margin-bottom:22px}@media(max-width:600px){.home-conversation{padding:14px;margin-bottom:14px}.home-conversation #home-guidance{font-size:13px}.askbox{padding:16px}.askbox .askgo{top:16px;right:14px}.home-prompt-ad{gap:9px;flex-wrap:wrap}.home-ad-badge{flex-basis:100%;font-size:9px}.home-ad-preview{align-self:center}.home-prompt-ad small{font-size:10px}.ask-h{font-size:30px}}
+.askbox textarea{padding-right:56px!important}.askbox .askgo{bottom:auto}body:has(#askForm:focus-within) .axp{display:none}</style>
 
 </head>
 <body>
@@ -237,10 +238,10 @@
       <g id="mxletters"></g><text id="mxai" text-anchor="middle">Ai</text>
       <path id="mxa" class="mxarc a1" pathLength="1"/><path id="mxb" class="mxarc a2" pathLength="1"/>
     </svg>
-    <h1 class="ask-h">What problem do you need solved?</h1>
-    <form class="askbox" id="askForm" novalidate>
-      <textarea id="askText" rows="3" maxlength="2000" aria-label="Describe your problem" placeholder="e.g. We get 3,000 invoices a month and someone types them in by hand"></textarea>
-      <button type="submit" class="askgo" aria-label="Get model recommendations">&#8593;</button>
+    <h1 class="ask-h">What are we working on today?</h1>
+    <div class="home-conversation" role="log" aria-live="polite" aria-label="ModRecx guided introduction"><span class="home-assistant-label">ModRecx · Guided start</span><p id="home-guidance">Tell me what takes too much time in your business. We’ll carry your brief into ModRecx to compare models and build a proposed workflow.</p></div><form class="askbox" id="askForm" novalidate>
+      <textarea id="askText" rows="3" maxlength="2000" aria-label="Describe your problem" placeholder="e.g. Help my team process invoices faster and reduce manual work"></textarea>
+      <button type="submit" class="askgo" aria-label="Continue to ModRecx">&#8593;</button><aside class="home-prompt-ad" aria-label="Sponsored advertisement placement inside prompt panel"><span class="home-ad-badge">Sponsored · Ad space</span><span><b>Partner placement</b><small>Reserved for an approved partner advertisement.</small></span><span class="home-ad-preview">Preview</span></aside>
     </form>
     <div class="askchips" id="askChips" role="group" aria-label="What kind of work is it?">
       <button type="button" data-k="sales" aria-pressed="false">Sales and leads</button>
@@ -281,6 +282,8 @@
 (function(){
   var f = document.getElementById("askForm"), t = document.getElementById("askText"), chips = document.getElementById("askChips"), m = document.getElementById("askMsg");
   var cat = null, orig = m.innerHTML;
+  var guidance=document.getElementById("home-guidance");
+  var questions={sales:"Let’s start with your leads. Where do they come from, how many arrive each month, and what would you like to improve?",support:"Let’s make support easier. Which channels do customers use, what questions repeat, and how many requests arrive each month?",documents:"Tell me about the paperwork. What documents do you handle, which fields matter, and how many do you process each month?",operations:"Walk me through the task. What happens first, where does work get stuck, and who needs to approve it?",content:"What are we creating? Tell me the audience, languages, channels and how much content you need.",data:"What would you like to understand? Describe your data sources, the reports you need and how often you need them."};
   var PH = {
     sales: "e.g. We get 400 enquiries a week and sort the serious ones by hand",
     support: "e.g. Our team answers 2,000 support emails a month, most are the same 20 questions",
@@ -293,7 +296,8 @@
     var b = e.target.closest("button"); if (!b) return;
     cat = b.getAttribute("aria-pressed") === "true" ? null : b.dataset.k;
     chips.querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-pressed", x.dataset.k === cat ? "true" : "false"); });
-    if (cat) t.placeholder = PH[cat];
+    t.placeholder = cat ? PH[cat] : "Describe the task, the current process and what you want to improve…";
+    guidance.textContent=cat?questions[cat]:"Tell me what takes too much time in your business. We’ll carry your brief into ModRecx to compare models and build a proposed workflow.";
     t.focus();
   });
   t.addEventListener("keydown", function(e){ if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); f.requestSubmit(); } });
@@ -735,7 +739,7 @@ function sendContact(e){
   function hide(){ box.classList.remove('show'); box.setAttribute('aria-hidden','true'); try{ localStorage.setItem(KEY,'1'); }catch(e){} }
   function onScroll(){ var y=window.scrollY||document.documentElement.scrollTop||document.body.scrollTop||0, H=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)-window.innerHeight; if(H>0&&y/H>0.35) show(); }
   window.addEventListener('scroll',onScroll,{passive:true});
-  setTimeout(show,8000);
+  // Show community invitation only after scrolling into the site, never over the opening prompt.
   document.getElementById('axp-x').addEventListener('click',hide);
   document.getElementById('axp-later').addEventListener('click',hide);
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&shown) hide(); });

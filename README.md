@@ -1,65 +1,53 @@
 # ALL×AI — public homepage
 
-Static marketing website for **https://allintoai.ai**, separate from the ModRecx/WorPrex application.
+Static marketing website for **allintoai.ai**. The separate ModRecx/WorPrex application is in [vansvan17/allxai-demo](https://github.com/vansvan17/allxai-demo), branch `master`, published through GitHub Pages at allxaiapp.com. Changes to one repository do not publish the other site.
 
-## Repositories and hosting
+## Company hosting handoff — 29 October 2026
 
-| Website | Repository / branch | Host |
-| --- | --- | --- |
-| allintoai.ai — public homepage | [Allintoai/Allintoai.ai](https://github.com/Allintoai/Allintoai.ai), `main` | Existing **Cloudflare Workers** project **allintoai-ai** |
-| allxaiapp.com — application, login, results and workflows | [vansvan17/allxai-demo](https://github.com/vansvan17/allxai-demo), `master` | **GitHub Pages**, custom domain |
+The replacement Cloudflare Worker **allintoai-ai** was successfully deployed to the new company account and its temporary address was checked:
 
-Verified 29 October 2026. Vanshika confirmed the Worker serves the homepage directly, including the www-to-apex redirect. The old `vansvan17/Allintoai.ai` URL redirects to this repository. The project also has a successful GitHub check **Workers Builds: allintoai-ai** on [commit 21f5bce](https://github.com/Allintoai/Allintoai.ai/commit/21f5bcea0c5dbe953d958779c373c3ba040e02c0). Cloudflare proxy headers/DNS alone do not establish the origin host.
+https://allintoai-ai.allxai-ai-com.workers.dev/
 
-**The previous Vercel/Render, React/Vite and Express instructions were inaccurate template documentation.** Those frontend/backend directories and build setup are absent here. Do not migrate hosts or replace DNS for these UI changes. The repository About panel may still contain a historical Vercel preview link; it is not the verified production deployment path above.
+Initial replacement version: `70d9a35f-2612-48e1-87da-ce09155e6053`. That version predates the agent-flow update. The domain nameservers were saved at Namecheap as `aisha.ns.cloudflare.com` and `titan.ns.cloudflare.com`; the latest dashboard observation still showed **Pending**. Confirm current activation and deploy the latest source before claiming the new UI is live at allintoai.ai.
 
-## Release status — 29 October 2026
+**Automatic GitHub builds are not connected to the new account yet.** Deployments currently use Wrangler from Shivansh's authenticated WSL session. The former developer's Cloudflare Worker served the site directly, not through Vercel. The old Vercel link in the repository About panel is legacy.
 
-Homepage UI source is pushed through [bdef8ec](https://github.com/Allintoai/Allintoai.ai/commit/bdef8ec37ae2cf7e15878dbad73c1aca20fcf7fc): conversational guided introduction, advertisement space inside the prompt panel, Indian model names/logos, and the ALL×AI product equation. The embedded lead-triage demo is removed; old app/login entry points redirect to the real application.
+## Current UI
 
-**Production publication remains unverified.** GitHub main had no Cloudflare check on 29 October, and the Cloudflare dashboard requires sign-in. The actual trigger/integration failure is not established. This repository now includes a complete static-asset build, Worker entry point, www redirect, pinned Wrangler dependency and deployment tests. We do not need the former developer's Worker source to reproduce these documented behaviours. Follow [DEPLOYMENT.md](DEPLOYMENT.md) to publish through the existing project.
+- Guided conversational introduction, original palette and clearly labelled partner ad space inside the prompt panel.
+- Indian model names/logos above global options; provider discovery is separate from an API integration.
+- ALL×AI = (ModRecx + WorPrex), Enterprise security and proprietary attribution.
+- ModRecx → WorPrex → Results architecture, expandable agent explanations, model/workflow refinement links, Dashboard and Analytics destinations. Phone layouts stack vertically.
+- Old embedded triage demo removed; retired app/login entry points lead to the actual application.
 
-## Source map
+See [AGENT_FLOW_UPDATE.md](AGENT_FLOW_UPDATE.md) for the architecture update and [DEPLOYMENT.md](DEPLOYMENT.md) for the active handoff procedure.
 
-| Path | Purpose |
-| --- | --- |
-| index.html | Homepage, styling, guided prompt interactions and application links |
-| app.html | Retired demo entry; redirects to allxaiapp.com/app.html?go=models |
-| login.html | Redirects to allxaiapp.com/login.html |
-| loading.html | Legacy loading page, eventually follows the login redirect |
-| x-layer.html, styles.css, image assets | Supporting marketing content and styling |
-| robots.txt, sitemap.xml | Search indexing metadata |
+## Build and validate
 
-Root HTML files are website source. Archive ZIPs are historical material and are excluded from the public deployment. `build.mjs` copies an explicit public-file list and checked assets into `dist/`; it does not transform the UI. `worker.mjs` implements the www redirect and delegates other requests to Cloudflare's static-asset binding. `wrangler.json` targets the existing `allintoai-ai` Worker and leaves domain routes managed in the dashboard.
+Use Linux Node.js 22+ inside WSL (`npm`, not `npm.cmd`):
 
-## Build, check and deploy
-
-Use Node.js 22 or newer:
-
-```sh
+```bash
 npm ci
 npm test
 npm run deploy:check
 ```
 
-The dry run builds and bundles without publishing or requiring Cloudflare credentials. Once authenticated to the account that owns the existing Worker, `npm run deploy` builds and publishes it. Existing Cloudflare Builds can use repository root `/`, branch `main`, build command `npm run build`, and deploy command `npm run deploy` (the default `npx wrangler deploy` also runs the configured build). DNS exports and GitHub access do not authorize a Cloudflare production deploy. No Vercel project is required.
+Four deployment/build tests cover asset packaging, source integrity, request passthrough and the www redirect. The shared architecture is also exercised by the app's 54-test regression suite, including navigation without losing a brief or consuming a recommendation. Browser previews cover the desktop diagram and phone-width layouts; preview fixtures do not prove production Supabase permissions or provider responses.
 
-## Local preview
+`build.mjs` copies an explicit public-file list and validated assets into `dist/`, excluding archives, source/configuration, dependencies, documentation and credentials. `worker.mjs` redirects www to the apex and serves other requests through the static-asset binding. Include both agent-flow.css and agent-flow.js whenever changing packaging.
 
-From the repository directory:
+## Routing configuration
 
-```sh
-python3 -m http.server 8000
-```
+The checked-in `wrangler.json` retains the former dashboard-managed-routing defaults (`workers_dev: false`, no routes). **The new company deployment currently uses a local override** with `workers_dev: true` and custom-domain entries for both allintoai.ai and www.allintoai.ai. Preserve that local file when pulling UI updates. A normal `git pull --ff-only` retains it while upstream does not change the same file. Resolve any Git conflict before deploying; do not discard the prepared routes.
 
-Open http://localhost:8000/. On Windows use `py -m http.server 8000` if Python is installed through the Windows launcher. Login and valid prompt submissions intentionally open the real application; use a disposable test brief.
-
-Check desktop and phone layout, keyboard navigation, category changes without erasing typed text, short-brief validation and brief/category handoff to ModRecx. Verify the sponsored placeholder stays inside the prompt panel, Indian model cards have names/logos, and the old demo is absent.
+Before enabling automatic builds, deliberately move the confirmed company routing settings into version control and validate against the new account. Simply connecting GitHub with the old default file is not the completed automation setup.
 
 ## Product boundaries
 
-The homepage provides a guided introduction; it does not call an LLM. The application currently uses rule-based recommendations and proposed workflow templates. Live LLM conversation needs company-funded provider access and server-side integration.
+The introduction is guided and the app currently uses rules for recommendations and proposed pipelines. A live LLM, automatic workflow execution, measured token savings and provider telemetry need separate backend integration and company-funded access. Ads are placeholders. Enterprise security is the architecture/branding layer, not a completed security audit or certification.
 
-Indian cards are discovery links, not proof of API integration or evaluated ranking. Advertisements are labelled placeholders. “Enterprise security” is product branding, not evidence of a completed audit/certification.
+## Other services
 
-See the [application README](https://github.com/vansvan17/allxai-demo#readme) and [acceptance checklist](https://github.com/vansvan17/allxai-demo/blob/master/UI_ACCEPTANCE_CHECKLIST.md) for application tests, saving and outstanding work.
+- company.allintoai.ai still depends on the former developer's Pages project, allintoai-company. Keep its existing CNAME and custom-domain association until its replacement is tested. Its deployed-only contact strip and mobile fix must be ported before rebuilding from source.
+- allxaiapp.com remains on its existing GitHub Pages deployment; its Google Workspace MX/SPF/DKIM records belong to that separate zone.
+- Supabase is owned by Chandan. Cloudflare or GitHub access does not grant database, authentication or SMTP administration.

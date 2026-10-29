@@ -1,0 +1,15 @@
+{
+  "name": "allintoai-homepage",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test deployment.test.mjs",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:check": "wrangler deploy --dry-run --outdir .wrangler/dry-run"
+  },
+  "devDependencies": { "wrangler": "4.155.0" }
+}

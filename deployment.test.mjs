@@ -49,6 +49,16 @@ test('public build excludes archives, docs, credentials and Worker source', asyn
   assert.equal(config.name, 'allintoai-ai');
   assert.equal(config.assets.directory, './dist');
   assert.equal(config.assets.run_worker_first, true);
-  assert.equal(config.workers_dev, false);
-  assert.ok(!('routes' in config) && !('route' in config));
+  assert.ok(!('route' in config));
+  if ('routes' in config) {
+    // The company-account handoff intentionally attaches both exact hostnames.
+    // Keep accepting the dashboard-managed base until that cutover is verified.
+    assert.equal(config.workers_dev, true);
+    assert.deepEqual(config.routes, [
+      { pattern: 'allintoai.ai', custom_domain: true },
+      { pattern: 'www.allintoai.ai', custom_domain: true }
+    ]);
+  } else {
+    assert.equal(config.workers_dev, false);
+  }
 });

@@ -1,79 +1,44 @@
-# Homepage deployment handoff
+# Homepage deployment and company-account handoff
 
-Updated 29 October 2026. Applies to **allintoai.ai**, not the separate GitHub Pages app at allxaiapp.com or the Cloudflare Pages company site.
+Updated 29 October 2026. Applies to allintoai.ai, not the separate GitHub Pages app.
 
-## Reproducible deployment from this repository
+## Verified state
 
-The UI source now has a deployable Cloudflare Workers configuration. No proprietary build tooling, Vercel project, database migration or third-party runtime secret is required for this static homepage.
+Replacement Worker: **allintoai-ai**, company account `684b42baa118130d88e96339a4e6bcbd`. Authenticated WSL deployment succeeded at https://allintoai-ai.allxai-ai-com.workers.dev/ (initial version 70d9a35f-2612-48e1-87da-ce09155e6053). The new architecture update requires another deployment after pulling source.
 
-| Setting | Value |
-| --- | --- |
-| Existing Worker | `allintoai-ai` |
-| Connected repository | `Allintoai/Allintoai.ai` (old `vansvan17/Allintoai.ai` redirects here) |
-| Production branch | `main` |
-| Root directory | Repository root (`/`) |
-| Node | 22 or newer |
-| Dependency install | `npm ci` (lockfile supplied) |
-| Build command | `npm run build` |
-| Deploy command | `npm run deploy` (or default `npx wrangler deploy`) |
-| Wrangler config | `wrangler.json` |
-| Public asset directory | `dist/` |
-| Worker entry point | `worker.mjs` |
+Namecheap now has the new assigned nameservers, aisha.ns.cloudflare.com and titan.ns.cloudflare.com. The latest Cloudflare screenshot showed Pending; public resolver checks can lag. Check the account's actual current zone state before attaching custom domains. No claim of completed production cutover or working automatic builds is made here.
 
-`wrangler.json` also sets `build.command`, so deploying directly still rebuilds the assets even if the dashboard build command is blank. Running the dashboard build first is harmless. `workers_dev: false` and omitted routes leave the production domain routes under dashboard control; `keep_vars: true` preserves dashboard variables. The existing Worker name must be used in the owning account. Do not run this as a replacement project in a different account and expect DNS to follow automatically.
+## Finish the prepared WSL deployment
 
-The Worker retains the reported 301 from `www.allintoai.ai` to `allintoai.ai`, preserving paths and queries. All other requests use `ASSETS.fetch`. Static-asset HTML handling supports existing `.html` links and extensionless routes; missing pages return 404 rather than displaying an unrelated SPA. Only public HTML, styles, images, fonts and scripts enter `dist/`. Git metadata, archives, docs, build code and credentials are excluded.
+1. Cloudflare → Domains → allintoai.ai → Overview → Check nameservers now. Wait for **Active**. Custom-domain attachment requires an active zone.
+2. In WSL, keep the prepared local wrangler.json: workers_dev=true; routes for allintoai.ai and www.allintoai.ai, both custom_domain=true. The checked-in base still has the old dashboard-managed defaults. Preserve the local override; do not reset it to the base during a UI pull.
+3. Pull and deploy:
 
-Validate without Cloudflare access:
-
-```sh
-npm ci
+```bash
+cd ~/allintoai-cloudflare
+git pull --ff-only
 npm test
-npm run deploy:check
+export CLOUDFLARE_ACCOUNT_ID="684b42baa118130d88e96339a4e6bcbd"
+npm run deploy
 ```
 
-For a local Cloudflare runtime: `npm run dev`. To publish from an authenticated machine: `npm run deploy`. Authentication must belong to the account that owns the existing Worker; neither DNS zone exports nor GitHub repository write access grants that permission. Do not place credentials in this repository.
+The deployment tests accept both the tracked dashboard-managed base and the prepared company override with the two exact custom domains. They reject unexpected routing configurations. npm run deploy:check validates the local bundle without publishing.
 
-Validation on 29 October: all four deployment tests passed and Wrangler 4.155.0 successfully completed the deployment dry run, reading 16 public assets and bundling the Worker with its ASSETS binding. Local `wrangler dev` was blocked by this execution environment's `uv_interface_addresses` system error before serving requests; a full local workerd HTTP check is not claimed. No production publish is claimed without a successful Cloudflare result and live-domain verification.
+4. Confirm both custom domains in Worker → Domains and verify HTTPS certificate status. A successful upload is not proof that certificates and public DNS have finished propagating.
+5. Check the real apex, www redirect (path/query retained), prompt/category handoff, ad placement, Indian model cards, agent architecture disclosures and product links. Check the company subdomain and app login separately. Record the actual deployment version and outcome.
 
-## Access
+## DNS retained in the new zone
 
-The owner should invite Shivansh's Cloudflare account to the existing account/project with permission to inspect settings/logs and deploy **allintoai-ai**. An invitation avoids sharing the owner's password. GitHub access does not grant Cloudflare access.
+The automatic scan captured the former Cloudflare proxy A/AAAA addresses. Those eight apex/www rows were removed. The company CNAME was restored to allintoai-company.pages.dev; Google verification and existing TXT records were retained. The Worker custom-domain setup creates the apex/www records. Do not point the new zone back at the former Cloudflare proxy IPs.
 
-Project evidence: [successful Workers build check](https://github.com/Allintoai/Allintoai.ai/runs/109754261924) for commit 21f5bce. Do not create replacement hosting or change DNS to troubleshoot this release.
+Keep the former company's Pages project and its existing company.allintoai.ai custom-domain association running until its replacement is tested. A CNAME alone does not create a Pages custom-domain association. The company Vite/React site builds with npm run build to dist; its deployed-only contact strip/mobile fix must be moved into source before a rebuild.
 
-## Inspect and publish
+allxaiapp.com has a separate zone with Google Workspace email. Its registrar/nameservers/mail records have not been part of this homepage switch. Preserve MX, SPF and DKIM during its later handoff.
 
-1. Open the existing **allintoai-ai** project in Cloudflare Workers & Pages. Record current production version/deployment and custom-domain bindings as the rollback target.
-2. Verify connected repository **Allintoai/Allintoai.ai** and production branch **main**. Inspect automatic triggers, GitHub integration permissions and build logs, including skipped/failed builds.
-3. Compare production source SHA with GitHub main. UI changes are present through **bdef8ec**; later documentation commits may be newer. Publish the latest reviewed main using the existing project configuration.
-4. Use the settings table above. Inspect existing bindings before the first publish; Vanshika reported no additional bindings. This is static HTML with an asset-copy build, not React/Vite. Save the previous production Worker version before replacing its code.
-5. Repair the actual identified issue or trigger a production build. Wait for success and record the source SHA, deployment URL and timestamp. A GitHub upload alone is not deployment.
-6. Check the deployment URL and https://allintoai.ai/ in fresh desktop and phone browser sessions. If stale, compare the two responses before deciding whether a targeted cache purge is needed.
+## Enable automatic deployment later
 
-The previous live check served the earlier homepage. As of 29 October, main at fbb2e953 had no GitHub check run and this browser had no authenticated Cloudflare session. **The cause of stopped/missing publication is not yet established.** A reproducible build fixes the source-side deployment gap but cannot restore a disabled Git connection or supply account authorization. After pushing this setup, check for a new build; if none appears, repair the connection/trigger in Settings > Builds, then deploy. Record the actual cause after inspection.
-
-## Production acceptance
-
-- New heading: “What are we working on today?” with ModRecx guided introduction.
-- Category chips change questions without clearing the typed brief.
-- Short briefs show validation; valid brief/category reach the real ModRecx app.
-- Clearly labelled sponsored placeholder is **inside the prompt panel**.
-- Sarvam-105B and Param2 17B names/logos appear above global models.
-- Product equation, Enterprise security line and ALLINTOAI attribution appear on homepage.
-- No embedded lead-triage demo. /app.html and /login.html reach the actual app.
-- Header, company/contact links, keyboard focus and mobile spacing work.
-
-After verification update the homepage README and application acceptance checklist with deployed SHA and verification outcome.
+The new account's repository picker cannot access the company repository through a personal-only GitHub App installation. The repository owner must authorize Cloudflare Workers and Pages for this repository. Use selected-repository access. Then connect the new allintoai-ai Worker to Allintoai/Allintoai.ai, branch main, repository root, Node 22+, build npm run build and deploy npm run deploy. First commit/validate the intended company routing configuration so future builds do not disable the temporary testing URL or lose domain bindings. Trigger a real build and verify its deployed source SHA.
 
 ## Rollback
 
-Restore the recorded previous production deployment/version in the existing Cloudflare project if behaviour breaks. Revert the offending source through a normal GitHub commit so a later build does not reintroduce it. Preserve unrelated changes; do not force-push. These homepage changes have no database migration.
-
-## Separate application
-
-The **vansvan17/allxai-demo / master** repository publishes **allxaiapp.com through GitHub Pages**. Verify its deployment in that repository's Actions tab. App commits cannot publish this homepage; homepage commits cannot deploy app changes.
-
-## Separate ownership migration
-
-Changing hosting ownership is not required to publish this UI release. If a migration is arranged, use Chandan/company-owned accounts. The company site is `allintoai-company` on Cloudflare Pages (`npm run build`, output `dist`), with its current source branch still to be confirmed. Its deployed-only contact strip and responsive CSS must be ported into source before rebuilding that separate site. Supabase is owned by Chandan. Preserve Google Workspace MX/SPF/DKIM on `allxaiapp.com`. Test replacement hosting before nameserver changes and keep the old services running until all three sites, login and email pass verification.
+Keep the previous Worker deployment version. Roll back the Worker version for a code regression, then revert the offending source through normal Git history so the next deploy does not restore it. DNS/account migration and TLS provisioning are separate from code rollback; changing nameservers back is not an instantaneous rollback. No database migration is included in this UI update.

@@ -8,7 +8,7 @@ const output = path.join(root, 'dist');
 // deployment configuration, dependencies or future credentials as assets.
 const publicFiles = [
   'index.html', 'app.html', 'login.html', 'loading.html', 'x-layer.html',
-  'styles.css', 'logo.svg', 'favicon.png', 'apple-touch-icon.png',
+  'styles.css', 'agent-flow.css', 'agent-flow.js', 'logo.svg', 'favicon.png', 'apple-touch-icon.png',
   'robots.txt', 'sitemap.xml',
   'Modern Creative Logo Instagram Post_20250621_114837_0000.svg'
 ];

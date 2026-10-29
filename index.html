@@ -209,6 +209,7 @@
 .indian-logo-light{background:#fff}.mods.indian-models .indian-note{font-size:12px;line-height:1.6;margin-top:12px}.home-conversation{max-width:760px;margin:0 auto 18px;text-align:left;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.home-assistant-label{font-size:11px;color:var(--cyan);font-weight:700;letter-spacing:.6px}.home-conversation #home-guidance{font-size:14px;line-height:1.7;color:var(--muted);margin:8px 0 0;max-width:none}.askbox{padding:18px 20px}.askbox textarea{padding-right:52px;min-height:100px}.askbox .askgo{top:20px;right:18px;transform:none;width:44px;height:44px}.home-prompt-ad{display:flex;align-items:center;gap:12px;border-top:1px solid var(--line);padding-top:14px;margin-top:16px;text-align:left}.home-ad-badge{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--cyan);flex:0 0 82px}.home-prompt-ad b{display:block;color:var(--ink);font-size:12px}.home-prompt-ad small{display:block;color:var(--muted);font-size:11px;line-height:1.5;margin-top:3px}.home-ad-preview{font-size:10px;border:1px solid var(--line);border-radius:20px;padding:4px 8px;color:var(--muted);margin-left:auto}.ask-h{margin-bottom:22px}@media(max-width:600px){.home-conversation{padding:14px;margin-bottom:14px}.home-conversation #home-guidance{font-size:13px}.askbox{padding:16px}.askbox .askgo{top:16px;right:14px}.home-prompt-ad{gap:9px;flex-wrap:wrap}.home-ad-badge{flex-basis:100%;font-size:9px}.home-ad-preview{align-self:center}.home-prompt-ad small{font-size:10px}.ask-h{font-size:30px}}
 .askbox textarea{padding-right:56px!important}.askbox .askgo{bottom:auto}body:has(#askForm:focus-within) .axp{display:none}</style>
 
+<link rel="stylesheet" href="agent-flow.css?v=20261029a"/>
 </head>
 <body>
 <!-- NAV -->
@@ -263,6 +264,7 @@
     <p class="anchor">Already have an account? <a href="https://allxaiapp.com/login.html">Log in</a> &middot; New here? <a href="https://allxaiapp.com/login.html?mode=signup">Create an account</a></p>
   </div>
 </div></header>
+<section class="ax-home-agent-flow" id="allxai-agent-flow"><div class="wrap"><div data-ax-agent-flow></div></div></section>
 <script>
 (function(){
   var svg = document.getElementById("mxmark"), g = document.getElementById("mxletters"), NS = "http://www.w3.org/2000/svg";
@@ -745,5 +747,6 @@ function sendContact(e){
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&shown) hide(); });
 })();
 </script>
+<script src="agent-flow.js?v=20261029a"></script>
 </body>
 </html>

@@ -8,9 +8,13 @@ The replacement Cloudflare Worker **allintoai-ai** was successfully deployed to 
 
 https://allintoai-ai.allxai-ai-com.workers.dev/
 
-Initial replacement version: `70d9a35f-2612-48e1-87da-ce09155e6053`. That version predates the agent-flow update. The domain nameservers were saved at Namecheap as `aisha.ns.cloudflare.com` and `titan.ns.cloudflare.com`; the latest dashboard observation still showed **Pending**. Confirm current activation and deploy the latest source before claiming the new UI is live at allintoai.ai.
+Initial replacement version: `70d9a35f-2612-48e1-87da-ce09155e6053`. That version predates the agent-flow update. Public checks on 30 October confirmed the new nameservers, `aisha.ns.cloudflare.com` and `titan.ns.cloudflare.com`, and a working HTTPS homepage with www redirecting to the apex. The homepage still lacked the newer agent-flow release. Do not describe nameserver propagation as pending on that evidence; verify the deployed source version separately. The 1 November navigation/footer update is source-ready and needs a confirmed company Worker deployment before it is called live.
 
 **Automatic GitHub builds are not connected to the new account yet.** Deployments currently use Wrangler from Shivansh's authenticated WSL session. The former developer's Cloudflare Worker served the site directly, not through Vercel. The old Vercel link in the repository About panel is legacy.
+
+## Navigation and policies — 1 November 2026
+
+WorPrex and AIxplorers are in the desktop and phone header navigation. WorPrex has a separate footer column and a crawlable overview at `/worprex`, with its own metadata and sitemap entry. Copyright uses `ALLINTOAI`. Policies remain canonical on allxaiapp.com and are updated in the companion application PR. See [FOOTER_POLICY_UPDATE.md](FOOTER_POLICY_UPDATE.md) for scope, validation and separate release paths. Sitemap submission and search-engine inclusion are not verified.
 
 ## Current UI
 

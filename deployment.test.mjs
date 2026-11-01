@@ -27,7 +27,7 @@ test('apex and local requests retain original URL/method and asset response incl
 });
 
 test('built pages are byte-identical and all local HTML asset references resolve', async () => {
-  for (const name of ['index.html', 'app.html', 'login.html', 'loading.html', 'x-layer.html']) {
+  for (const name of ['index.html', 'app.html', 'login.html', 'loading.html', 'x-layer.html', 'worprex.html']) {
     const source = await readFile(path.join(root, name), 'utf8');
     assert.equal(await readFile(path.join(root, 'dist', name), 'utf8'), source);
     for (const match of source.matchAll(/(?:src|href)=["']([^"']+)["']/g)) {

@@ -1,0 +1,46 @@
+/* Product navigation shared by the public homepage and WorPrex overview. */
+.nav .wrap{max-width:1440px;gap:14px}
+.nav .brand,.nav .cta{flex-shrink:0}
+.nav .links{gap:15px;margin-left:8px;align-items:center;white-space:nowrap;font-size:13px}
+.nav .links a{display:inline-flex;align-items:center;min-height:44px}
+.nav a:focus-visible,footer a:focus-visible{outline:2px solid var(--cyan);outline-offset:4px;border-radius:4px}
+.mobile-nav{display:none}
+footer .wrap{max-width:1280px}
+.foot-grid{grid-template-columns:minmax(240px,1.6fr) repeat(4,minmax(0,1fr));gap:28px}
+.foot-grid>*{min-width:0}
+.foot-col h4{font-size:12px;color:var(--ink)}
+.foot-col a{min-height:32px;line-height:1.5;opacity:1}
+.foot-contact a,.foot-contact p{overflow-wrap:anywhere}
+.foot-legal{display:flex;flex-wrap:wrap;gap:18px}
+.foot-legal a{display:inline-flex;align-items:center;min-height:32px}
+@media(max-width:1199px){
+  .nav .wrap{height:auto;min-height:64px;flex-wrap:wrap;gap:10px;padding-top:10px;padding-bottom:10px}
+  .nav .links{display:none}
+  .mobile-nav{display:block;flex:0 0 100%;border-top:1px solid var(--line);padding-top:4px}
+  .mobile-nav summary{cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:var(--cyan);list-style:none}
+  .mobile-nav summary::-webkit-details-marker{display:none}
+  .mobile-nav summary::after{content:'+';font-size:20px}
+  .mobile-nav[open] summary::after{content:'−'}
+  .mobile-nav nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;padding:4px 0 8px}
+  .mobile-nav nav a{display:flex;align-items:center;min-height:44px;padding:8px 10px;border-radius:8px;font-size:14px;background:var(--panel);color:var(--ink)}
+  .mobile-nav summary:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+}
+@media(min-width:641px) and (max-width:1000px){
+  .foot-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .foot-brand{grid-column:1/-1;max-width:600px}
+}
+@media(max-width:640px){
+  .foot-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 18px}
+  .foot-brand{grid-column:1/-1}
+  .foot-col a{min-height:44px;margin-bottom:0;display:flex;align-items:center}
+  .foot-col h4 a{min-height:32px}
+  .foot-bar{gap:12px}
+  .foot-legal{gap:6px 20px}
+  .foot-legal a{min-height:44px}
+}
+@media(max-width:380px){
+  .nav .wrap{padding-left:14px;padding-right:14px}
+  .nav .brand{font-size:16px;gap:5px}
+  .nav .btn{padding:9px 10px}
+  .nav .ghost{padding:8px 6px}
+}
